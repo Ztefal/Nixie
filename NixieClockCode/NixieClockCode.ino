@@ -168,6 +168,8 @@ void loop () {
     } else if (testpattern == 1) {
       ScrollPattern();
       testpattern = 0;
+      t = RTC.get();
+      setTime(t);
     }
   } else if (millis()-SecondCount > 1000) {
     SecondCount = millis();
@@ -181,24 +183,42 @@ void loop () {
   if (button1State == HIGH) {   
     // Set time with button
     //get time from the realtime clock
-    //t = now();
     t = t+60;
+    setTime(t);
     if(RTC.set(t) == 1)
     {
       ScrollPattern();
     }
     
-    //RTC.set(t);
-    
     MinuteCount = millis();
   } 
   if (button2State == HIGH) {   
+    // Set time with button
+    //get time from the realtime clock
+    t = t+3600;
+    setTime(t);
+    if(RTC.set(t) == 1)
+    {
+      ScrollPattern();
+    }
+    
+    
     // Display the scrolling pattern
+    //redcolor = random(255);
+    //greencolor = random(255);
+    //bluecolor = random(255);
+    MinuteCount = millis();
+  } 
+
+  if ((button2State == HIGH) &&(button1State == HIGH) ) {   
+
+      //ScrollPattern();
+      // Display the scrolling pattern
     redcolor = random(255);
     greencolor = random(255);
     bluecolor = random(255);
-    MinuteCount = millis();
-  } 
+  }
+    
   
 }
 
@@ -429,6 +449,7 @@ void shiftOut() {
 void GetTime () {
   
   t = now();
+  //t = RTC.get();
 }
 
 
