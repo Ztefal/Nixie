@@ -61,7 +61,7 @@ void setup () {
   Serial.println("DS1302RTC Read Test");
   Serial.println("-------------------");
   
-  delay(500);
+  delay(200);
   
   if (RTC.haltRTC()) {
     Serial.println("The DS1302 is stopped.  Please run the SetTime");
@@ -129,7 +129,7 @@ void loop () {
             if (y >= 1000)
                 tm.Year = CalendarYrToTm(y);
             else    //(y < 100)
-                tm.Year = y2kYearToTm(y);
+            tm.Year = y2kYearToTm(y);
             tm.Month = Serial.parseInt();
             tm.Day = Serial.parseInt();
             tm.Hour = Serial.parseInt();
@@ -177,8 +177,19 @@ void loop () {
   
   button1State = digitalRead(button1Pin);
   button2State = digitalRead(button2Pin);
+ 
   if (button1State == HIGH) {   
-    // Display the temperature pattern
+    // Set time with button
+    //get time from the realtime clock
+    //t = now();
+    t = t+60;
+    if(RTC.set(t) == 1)
+    {
+      ScrollPattern();
+    }
+    
+    //RTC.set(t);
+    
     MinuteCount = millis();
   } 
   if (button2State == HIGH) {   
